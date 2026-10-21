@@ -1,6 +1,6 @@
 ﻿# Proxy
 
-## [Open the proxy](https://qgipu-50-47-207-230.free.pinggy.net)
+## [Open the proxy](https://9890ef786c735e.lhr.life)
 
-Updated 2026-10-20 22:54
+Updated 2026-10-21 07:29
 
