@@ -1,0 +1,17 @@
+# Press "Run workflow" on this to ask the PC for a new link. Only people with write access to the repo can run it.
+# It pushes an empty commit to the "refresh" branch; new-link.ps1 on the PC watches that branch.
+name: New link
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  request:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          git config user.name "new-link"
+          git config user.email "new-link@users.noreply.github.com"
+          git switch --orphan refresh
+          git commit --allow-empty -m "New link requested $(date -u +%FT%TZ)"
+          git push -f origin refresh
