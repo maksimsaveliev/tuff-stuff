@@ -1,6 +1,6 @@
 ﻿# Proxy
 
-## [Open the proxy](https://dd64d16360ce83.lhr.life)
+## [Open the proxy](https://443f7b24cfc39b.lhr.life)
 
-Updated 2026-10-21 13:22
+Updated 2026-10-21 13:52
 
