@@ -1,6 +1,6 @@
-﻿## [W games](https://e9d6efacf91713.lhr.life)
+﻿## [W games](https://624abfcb3dd967.lhr.life)
 
 [New link (owner only)](https://github.com/maksimsaveliev/tuff-stuff/actions/workflows/new-link.yml)
 
-Updated 2026-10-24 00:12
+Updated 2026-10-24 00:19
 
