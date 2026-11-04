@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f1e7">
+  <title>Realidades 1 · Capítulo 1A — Sopa de letras</title>
+  <style>
+    :root { color-scheme: light; --paper:#fffdf8; --ink:#29251f; --muted:#766f65; --accent:#7b4d9d; --line:#e7dfd1; --found:#d9efcf; }
+    * { box-sizing:border-box }
+    body { margin:0; background:#f6f1e7; color:var(--ink); font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif }
+    main { width:min(1100px,100%); margin:auto; padding:24px 18px 40px }
+    header { text-align:center; margin-bottom:22px }
+    h1 { margin:0; font-family:Georgia,serif; font-size:clamp(1.7rem,5vw,2.7rem); letter-spacing:.02em }
+    .subtitle { margin:4px 0 0; color:var(--muted) }
+    .layout { display:grid; grid-template-columns:minmax(0,1fr) 270px; gap:22px; align-items:start }
+    .board-wrap,.side { background:var(--paper); border:1px solid var(--line); border-radius:14px; box-shadow:0 5px 20px #3826120b }
+    .board-wrap { padding:clamp(8px,2vw,18px); overflow:auto }
+    #board { display:grid; grid-template-columns:repeat(20,minmax(22px,1fr)); gap:2px; min-width:500px; user-select:none; touch-action:none }
+    .cell { aspect-ratio:1; display:grid; place-items:center; border-radius:4px; background:#faf7f0; font-weight:650; font-size:clamp(11px,1.5vw,16px); cursor:pointer; transition:background .12s,transform .12s }
+    .cell:hover { background:#eee5f4 }
+    .cell.selected { background:#eadcf4 }
+    .cell.found { background:var(--found); color:#28512b }
+    .side { padding:18px }
+    h2 { margin:0 0 10px; font-size:1.15rem }
+    #words { display:grid; grid-template-columns:1fr 1fr; gap:4px 10px; padding:0; margin:0; list-style:none }
+    #words li { font-size:.88rem; color:#514b43; white-space:nowrap }
+    #words li.found { color:#34713a; text-decoration:line-through; text-decoration-thickness:2px }
+    .progress { margin:14px 0 10px; color:var(--muted); font-size:.9rem }
+    button { border:0; border-radius:8px; padding:9px 13px; background:var(--accent); color:white; font:inherit; font-weight:650; cursor:pointer }
+    button:hover { filter:brightness(.92) }
+    .hint { margin:12px 0 0; font-size:.83rem; color:var(--muted) }
+    .status { min-height:1.4em; margin:10px 0 0; color:#34713a; font-size:.9rem }
+    @media(max-width:760px) { main{padding:18px 10px 30px}.layout{grid-template-columns:1fr}.side{order:-1}#words{grid-template-columns:repeat(3,1fr)} }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Realidades 1 · Capítulo 1A</h1>
+    <p class="subtitle">Sopa de letras · Encuentra las palabras escondidas</p>
+  </header>
+  <section class="layout" aria-label="Sopa de letras interactiva">
+    <div class="board-wrap"><div id="board" role="grid" aria-label="Cuadrícula de letras"></div></div>
+    <aside class="side">
+      <h2>Palabras</h2>
+      <ul id="words"></ul>
+      <p class="progress" id="progress" aria-live="polite"></p>
+      <button id="new-game" type="button">Mezclar cuadrícula</button>
+      <p class="hint">Pulsa o arrastra desde la primera letra hasta la última. Las palabras pueden ir en cualquier dirección.</p>
+      <p class="status" id="status" aria-live="polite"></p>
+    </aside>
+  </section>
+</main>
+<script>
+(() => {
+  const words = ['BAILAR','CANTAR','CORRER','DIBUJAR','ESCRIBIR','CUENTOS','ESCUCHAR','MUSICA','ESQUIAR','HABLAR','TELEFONO','IR','ESCUELA','JUGAR','VIDEOJUEGOS','LEER','REVISTAS','MONTAR','BICICLETA','MONOPATIN','NADAR','PASAR','TIEMPO','CON','AMIGOS','PATINAR','PRACTICAR','DEPORTES','TOCAR','GUITARRA','TRABAJAR','USAR','COMPUTADORA','VER','TELE','HACER','ME','TE','GUSTA','MAS','PUES'];
+  const size = 20, boardEl = document.querySelector('#board'), wordsEl = document.querySelector('#words');
+  let grid, placements, found, start = null, dragging = false;
+  const dirs = [[0,1],[1,0],[0,-1],[-1,0],[1,1],[1,-1],[-1,1],[-1,-1]];
+  const rand = n => Math.floor(Math.random()*n);
+  function makePuzzle() {
+    for (let attempt=0; attempt<100; attempt++) {
+      grid=Array.from({length:size},()=>Array(size).fill('')); placements=new Map(); let ok=true;
+      for (const word of [...words].sort((a,b)=>b.length-a.length)) {
+        let placed=false;
+        for (let tries=0;tries<500&&!placed;tries++) {
+          const [dr,dc]=dirs[rand(dirs.length)], r=rand(size), c=rand(size), endR=r+dr*(word.length-1), endC=c+dc*(word.length-1);
+          if(endR<0||endR>=size||endC<0||endC>=size) continue;
+          let fits=true; for(let i=0;i<word.length;i++) if(grid[r+dr*i][c+dc*i]&&grid[r+dr*i][c+dc*i]!==word[i]) {fits=false;break;}
+          if(!fits) continue;
+          const cells=[]; for(let i=0;i<word.length;i++){const rr=r+dr*i,cc=c+dc*i;grid[rr][cc]=word[i];cells.push(`${rr},${cc}`)}
+          placements.set(word,cells); placed=true;
+        }
+        if(!placed){ok=false;break;}
+      }
+      if(ok) break;
+    }
+    for(let r=0;r<size;r++) for(let c=0;c<size;c++) if(!grid[r][c]) grid[r][c]=String.fromCharCode(65+rand(26));
+    found=new Set(); render();
+  }
+  function render(){
+    boardEl.replaceChildren();
+    for(let r=0;r<size;r++) for(let c=0;c<size;c++){
+      const cell=document.createElement('div'); cell.className='cell'; cell.textContent=grid[r][c]; cell.dataset.pos=`${r},${c}`; cell.setAttribute('role','gridcell'); cell.setAttribute('aria-label',`${grid[r][c]}, fila ${r+1}, columna ${c+1}`); boardEl.append(cell);
+    }
+    wordsEl.replaceChildren(); for(const word of words){const li=document.createElement('li');li.textContent=word;li.id=`word-${word}`;if(found.has(word))li.classList.add('found');wordsEl.append(li)}
+    document.querySelector('#progress').textContent=`Encontradas: ${found.size} de ${words.length}`;
+  }
+  function cellFromEvent(e){const cell=e.target.closest('.cell');return cell?cell.dataset.pos:null}
+  function clearSelection(){boardEl.querySelectorAll('.selected').forEach(el=>el.classList.remove('selected'))}
+  function selectLine(a,b){clearSelection();if(!a||!b)return;const [r1,c1]=a.split(',').map(Number),[r2,c2]=b.split(',').map(Number),dr=r2-r1,dc=c2-c1;
+    if(!(dr===0||dc===0||Math.abs(dr)===Math.abs(dc)))return;
+    const nr=Math.sign(dr),nc=Math.sign(dc),len=Math.max(Math.abs(dr),Math.abs(dc));for(let i=0;i<=len;i++)boardEl.querySelector(`[data-pos="${r1+nr*i},${c1+nc*i}"]`)?.classList.add('selected');
+  }
+  function finish(end){ if(!start||!end)return; const [r1,c1]=start.split(',').map(Number),[r2,c2]=end.split(',').map(Number),dr=r2-r1,dc=c2-c1; if(!(dr===0||dc===0||Math.abs(dr)===Math.abs(dc))){clearSelection();start=null;return;}
+    const nr=Math.sign(dr),nc=Math.sign(dc),len=Math.max(Math.abs(dr),Math.abs(dc)),line=[];for(let i=0;i<=len;i++)line.push(`${r1+nr*i},${c1+nc*i}`);const key=line.join('|'),reverse=[...line].reverse().join('|');
+    for(const [word,cells] of placements){if(!found.has(word)&&(cells.join('|')===key||cells.join('|')===reverse)){found.add(word);document.querySelector(`#word-${word}`).classList.add('found');line.forEach(pos=>boardEl.querySelector(`[data-pos="${pos}"]`)?.classList.add('found'));document.querySelector('#status').textContent=`¡Encontraste ${word}!`;break;}}
+    document.querySelector('#progress').textContent=`Encontradas: ${found.size} de ${words.length}`; if(found.size===words.length)document.querySelector('#status').textContent='¡Excelente! Encontraste todas las palabras.';clearSelection();start=null;
+  }
+  boardEl.addEventListener('pointerdown',e=>{const pos=cellFromEvent(e);if(!pos)return;start=pos;dragging=true;boardEl.setPointerCapture(e.pointerId);selectLine(start,pos);e.preventDefault()});
+  boardEl.addEventListener('pointermove',e=>{if(dragging)selectLine(start,cellFromEvent(e))});
+  boardEl.addEventListener('pointerup',e=>{if(dragging){finish(cellFromEvent(e));dragging=false}});
+  boardEl.addEventListener('pointercancel',()=>{dragging=false;start=null;clearSelection()});
+  document.querySelector('#new-game').addEventListener('click',()=>{document.querySelector('#status').textContent='';makePuzzle()});
+  makePuzzle();
+})();
+</script>
+</body>
+</html>
