@@ -10,12 +10,14 @@
 </header>
 <main class="credits">
   <h1>Credits</h1>
-  <p class="sub">Every game here is open source and is hosted under its licence. Thank you to their makers.</p>
+  <p class="sub">Every game here hosted here is open source and is hosted under its licence. Thank you to their makers.</p>
   <ul id="list"></ul>
 </main>
 <script src="games.js"></script>
 <script>
-  document.getElementById('list').innerHTML = GAMES.map((g) => `
+  document.getElementById('list').innerHTML = GAMES.map((g) => g.link ? `
+    <li><b>${g.name}</b> by ${g.author}. Not hosted here: the card links to the official game at
+      <a href="${g.link}" target="_blank" rel="noopener">${g.link.replace('https://', '')}</a>.</li>` : `
     <li><b>${g.name}</b> by ${g.author}. Licence: ${g.license}
       (<a href="games/${g.slug}/${g.slug === 'radius-raid' ? 'LICENSE.md' : g.slug === '2048' ? 'LICENSE.txt' : 'LICENSE'}">licence text</a>).
       Source code: <a href="${g.source}" target="_blank" rel="noopener">${g.source.replace('https://', '')}</a></li>`).join('');

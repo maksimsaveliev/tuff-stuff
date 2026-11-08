@@ -16,7 +16,7 @@
 <script>
   // Only games from the list can open here. The sandbox has no popups or top-level navigation, so links
   // inside a game (credits, music, store pages) can't open other sites in a new tab or take over the page.
-  const game = GAMES.find((g) => g.slug === new URLSearchParams(location.search).get('g'));
+  const game = GAMES.find((g) => !g.link && g.slug === new URLSearchParams(location.search).get('g'));
   if (game) {
     document.title = game.name + ' - Tuff Stuff Games';
     const f = document.createElement('iframe');

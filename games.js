@@ -15,4 +15,7 @@ const GAMES = [
     author: 'Jack Rugile', license: 'MIT', source: 'https://github.com/jackrugile/radius-raid-js13k' },
   { slug: 'blocks', name: 'Falling Blocks', tag: 'Puzzle', desc: 'Stack the falling pieces and clear full lines.',
     author: 'Jake Gordon', license: 'MIT', source: 'https://github.com/jakesgordon/javascript-tetris' },
+  // Not open source and the maker doesn't allow embedding, so this card opens the official game on kodub.com.
+  { slug: 'polytrack', name: 'PolyTrack', tag: 'Racing', desc: 'Low-poly racing with loops and jumps. Build your own tracks. Opens on the official site.',
+    author: 'Kodub', link: 'https://www.kodub.com/apps/polytrack' },
 ];

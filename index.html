@@ -20,7 +20,9 @@
     <div class="card">
       <div class="top"><b>${g.name}</b><span class="tag">${g.tag}</span></div>
       <p>${g.desc}</p>
-      <a class="btn" href="play.html?g=${g.slug}">Play now</a>
+      ${g.link
+        ? `<a class="btn" href="${g.link}" target="_blank" rel="noopener">Play on ${new URL(g.link).hostname.replace('www.', '')} &#8599;</a>`
+        : `<a class="btn" href="play.html?g=${g.slug}">Play now</a>`}
     </div>`).join('');
   addEventListener('scroll', () => { document.getElementById('up').style.display = scrollY > 400 ? 'block' : 'none'; });
 </script>
