@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tuff Stuff Games</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #160536; overflow: hidden; font: 16px system-ui, sans-serif; color: #f4f0ff; }
+  iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  #back { position: fixed; left: 8px; top: 8px; z-index: 1; font: 600 13px system-ui; padding: 6px 10px; border-radius: 8px;
+    background: rgba(122,0,255,.75); color: #fff; text-decoration: none; opacity: .45; transition: opacity .2s; }
+  #back:hover { opacity: 1; background: rgba(122,0,255,.95); }
+  p { text-align: center; margin-top: 40vh; }
+</style>
+<a id="back" href="./">&larr; Games</a>
+<script src="games.js"></script>
+<script>
+  // Only games from the list can open here. The sandbox has no popups or top-level navigation, so links
+  // inside a game (credits, music, store pages) can't open other sites in a new tab or take over the page.
+  const game = GAMES.find((g) => g.slug === new URLSearchParams(location.search).get('g'));
+  if (game) {
+    document.title = game.name + ' - Tuff Stuff Games';
+    const f = document.createElement('iframe');
+    f.src = 'games/' + game.slug + '/index.html';
+    f.sandbox = 'allow-scripts allow-same-origin allow-pointer-lock allow-forms';
+    f.allow = 'fullscreen; autoplay; gamepad';
+    f.allowFullscreen = true;
+    document.body.append(f);
+    f.focus();
+  } else {
+    document.body.insertAdjacentHTML('beforeend', '<p>That game isn\'t here. <a href="./" style="color:#19d3c5">Back to the games</a></p>');
+  }
+</script>
+</html>

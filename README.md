@@ -1,6 +1,7 @@
-﻿## [W games](https://30157ac633ad2d.lhr.life)
+# Tuff Stuff Games
 
-[New link (owner only)](https://github.com/maksimsaveliev/tuff-stuff/actions/workflows/new-link.yml)
+A small site of open-source browser games, each hosted under its own licence (see `credits.html`).
 
-Updated 2026-11-07 23:19
-
+- `index.html` - the list of games
+- `play.html?g=<slug>` - plays one game full-window
+- `games.js` - the list itself; add a game by copying it into `games/<slug>/` with its LICENSE and adding an entry

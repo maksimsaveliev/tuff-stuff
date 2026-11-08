@@ -2,19 +2,26 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex">
-<title>Link</title>
-<style>
-  :root { --bg: #f4f4f5; --fg: #18181b; --muted: #71717a; --btn: #18181b; --btn-fg: #fafafa; }
-  @media (prefers-color-scheme: dark) {
-    :root { --bg: #18181b; --fg: #fafafa; --muted: #a1a1aa; --btn: #fafafa; --btn-fg: #18181b; }
-  }
-  body { font: 16px system-ui; background: var(--bg); color: var(--fg); max-width: 420px; margin: 20vh auto; padding: 0 16px; text-align: center; }
-  a.go { display: inline-block; padding: 12px 22px; border-radius: 8px; background: var(--btn); color: var(--btn-fg); text-decoration: none; }
-  p { color: var(--muted); font-size: 14px; }
-</style>
-<h2>Taking you there...</h2>
-<a class="go" href="https://30157ac633ad2d.lhr.life">Open now</a>
-<p>Updated 2026-11-07 23:19. If it doesn't load, refresh this page for the newest link.</p>
-<script>setTimeout(function () { location.replace("https://30157ac633ad2d.lhr.life"); }, 1200);</script>
-
+<title>Tuff Stuff Games</title>
+<link rel="stylesheet" href="style.css">
+<header>
+  <a class="logo" href="./">TUFF STUFF<span>GAMES</span></a>
+  <nav><a href="./">Games</a><a href="credits.html">Credits</a></nav>
+</header>
+<main>
+  <h1>Tuff Stuff <span>Games</span></h1>
+  <p class="sub">Pick a game and play.</p>
+  <div id="games"></div>
+</main>
+<button id="up" title="Back to top" onclick="scrollTo({ top: 0, behavior: 'smooth' })">&uarr;</button>
+<script src="games.js"></script>
+<script>
+  document.getElementById('games').innerHTML = GAMES.map((g) => `
+    <div class="card">
+      <div class="top"><b>${g.name}</b><span class="tag">${g.tag}</span></div>
+      <p>${g.desc}</p>
+      <a class="btn" href="play.html?g=${g.slug}">Play now</a>
+    </div>`).join('');
+  addEventListener('scroll', () => { document.getElementById('up').style.display = scrollY > 400 ? 'block' : 'none'; });
+</script>
+</html>
