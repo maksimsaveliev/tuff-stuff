@@ -19,7 +19,7 @@
     <li><b>${g.name}</b> by ${g.author}. Not hosted here: the card links to the official game at
       <a href="${g.link}" target="_blank" rel="noopener">${g.link.replace('https://', '')}</a>.</li>` : `
     <li><b>${g.name}</b> by ${g.author}. Licence: ${g.license}
-      (<a href="games/${g.slug}/${g.licenseFile || 'LICENSE'}">licence text</a>).
+      (<a href="games/${g.slug}/${g.licenseFile || 'LICENSE.txt'}">licence text</a>).
       Source code: <a href="${g.source}" target="_blank" rel="noopener">${g.source.replace('https://', '')}</a>${g.extra ? '<br>' + g.extra : ''}</li>`).join('');
 </script>
 </html>
