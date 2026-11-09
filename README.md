@@ -1,4 +1,4 @@
-# Tuff Stuff Games
+# Tuff Stuff
 
 A small site of open-source browser games, each hosted under its own licence (see `credits.html`).
 
