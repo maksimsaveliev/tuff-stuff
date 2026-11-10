@@ -20,7 +20,8 @@
   if (game) {
     document.title = game.name + ' - Tuff Stuff';
     const f = document.createElement('iframe');
-    f.src = 'games/' + game.slug + '/index.html';
+    // GAME_BASE is only set by the lhr.life server (games-link), so its game files load from the faster Cloudflare copy.
+    f.src = (window.GAME_BASE || '') + 'games/' + game.slug + '/index.html';
     f.sandbox = 'allow-scripts allow-same-origin allow-pointer-lock allow-forms allow-modals';
     f.allow = 'fullscreen; autoplay; gamepad';
     f.allowFullscreen = true;
