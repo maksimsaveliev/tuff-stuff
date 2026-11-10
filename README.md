@@ -3,7 +3,7 @@
 <!-- link -->
 ## Play: [https://ebcda094b03e3e.lhr.life](https://ebcda094b03e3e.lhr.life)
 
-Updated 2026-11-10 09:32. If it says "no tunnel", the link changed: check back here.
+Updated 2026-11-10 10:02. If it says "no tunnel", the link changed: check back here.
 <!-- /link -->
 
 A small site of open-source browser games, each hosted under its own licence (see `credits.html`).
