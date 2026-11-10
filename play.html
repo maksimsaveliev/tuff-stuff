@@ -17,7 +17,8 @@
   // Only games from the list can open here. The sandbox has no popups or top-level navigation, so links
   // inside a game (credits, music, store pages) can't open other sites in a new tab or take over the page.
   const game = GAMES.find((g) => !g.link && g.slug === new URLSearchParams(location.search).get('g'));
-  if (game) {
+  // BEFORE_GAME is only set by the lhr.life server (it installs a download helper first); elsewhere it's undefined.
+  if (game) Promise.resolve(window.BEFORE_GAME).catch(() => {}).then(() => {
     document.title = game.name + ' - Tuff Stuff';
     const f = document.createElement('iframe');
     // GAME_BASE is only set by the lhr.life server (games-link), so its game files load from the faster Cloudflare copy.
@@ -27,7 +28,8 @@
     f.allowFullscreen = true;
     document.body.append(f);
     f.focus();
-  } else {
+  });
+  else {
     document.body.insertAdjacentHTML('beforeend', '<p>That game isn\'t here. <a href="./" style="color:#19d3c5">Back to the games</a></p>');
   }
 </script>
