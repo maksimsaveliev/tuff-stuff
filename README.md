@@ -1,9 +1,9 @@
 # Tuff Stuff
 
 <!-- link -->
-## Play: [https://eee4b03175148c.lhr.life](https://eee4b03175148c.lhr.life)
+## Play: [https://211411f2a5790b.lhr.life](https://211411f2a5790b.lhr.life)
 
-Updated 2026-11-11 13:59. If it says "no tunnel", the link changed: check back here.
+Updated 2026-11-11 14:19. If it says "no tunnel", the link changed: check back here.
 <!-- /link -->
 
 A small site of open-source browser games, each hosted under its own licence (see `credits.html`).
